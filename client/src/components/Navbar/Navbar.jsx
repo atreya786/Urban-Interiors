@@ -1,8 +1,9 @@
 import { Navbar, Button, Text } from "@nextui-org/react";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Modal, Input, Row, Checkbox, Textarea } from "@nextui-org/react";
+import image from "./logo.png";
 
 const NewNavbar = () => {
   const { login } = useContext(AuthContext);
@@ -58,7 +59,7 @@ const NewNavbar = () => {
       }),
     });
     const json = await response.json();
-    // console.log(json);
+    console.log(json);
 
     // Reset form fields
     setUsername("");
@@ -72,16 +73,14 @@ const NewNavbar = () => {
     closeModal();
   };
 
-  const active = window.location.pathname
+  const active = window.location.pathname;
 
   return (
     <>
       <Navbar isBordered variant="sticky">
         <Navbar.Brand>
           <Link to="/">
-            <Text b color="inherit" hideIn="xs">
-              URBAN INTERIORS
-            </Text>
+          <img src={image} style={{height:"3rem", width:"15rem"}} alt="" />
           </Link>
         </Navbar.Brand>
         <Navbar.Content hideIn="xs" variant="highlight-rounded">
@@ -97,10 +96,18 @@ const NewNavbar = () => {
           >
             About
           </Navbar.Link>
-          <Navbar.Link  isActive={active === "/Contact" ? true : false}
-            href="Contact">Contact</Navbar.Link>
-          <Navbar.Link isActive={active === "/company" ? true : false}
-            href="company">Cart</Navbar.Link>
+          <Navbar.Link
+            isActive={active === "/Contact" ? true : false}
+            href="Contact"
+          >
+            Contact
+          </Navbar.Link>
+          <Navbar.Link
+            isActive={active === "/company" ? true : false}
+            href="company"
+          >
+            Cart
+          </Navbar.Link>
         </Navbar.Content>
         <Navbar.Content>
           <Navbar.Item>
