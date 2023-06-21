@@ -28,11 +28,11 @@ app.use(bodyParser.json());
 
 // Signup end point
 app.post("/api/signup", async (req, res) => {
-  const { username, email, password, phone, address } = req.body;
+  const { username, newemail, newpassword, phone, address } = req.body;
 
   try {
     // Check if username and email are already taken
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ newemail });
     if (existingUser) {
       return res
         .status(400)
@@ -41,12 +41,12 @@ app.post("/api/signup", async (req, res) => {
 
     // Hash password
     const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(newpassword, salt);
 
     // Create new user in database
     const user = new User({
       username,
-      email,
+      email: newemail,
       password: hashedPassword,
       phone,
       address,
