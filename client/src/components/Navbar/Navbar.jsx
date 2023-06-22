@@ -1,7 +1,7 @@
 import { Navbar, Button, Text } from "@nextui-org/react";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Modal, Input, Row, Checkbox, Textarea } from "@nextui-org/react";
 import image from "./logo.png";
 
@@ -10,7 +10,7 @@ const NewNavbar = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { token, logout } = useContext(AuthContext);
-  // console.log(token);
+  console.log(token);
 
   const handleLogin = async () => {
     await login(email, password);
@@ -59,7 +59,7 @@ const NewNavbar = () => {
       }),
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
 
     // Reset form fields
     setUsername("");
@@ -80,7 +80,11 @@ const NewNavbar = () => {
       <Navbar isBordered variant="sticky">
         <Navbar.Brand>
           <Link to="/">
-          <img src={image} style={{height:"3rem", width:"15rem"}} alt="" />
+            <img
+              src={image}
+              style={{ height: "3rem", width: "15rem" }}
+              alt=""
+            />
           </Link>
         </Navbar.Brand>
         <Navbar.Content hideIn="xs" variant="highlight-rounded">
