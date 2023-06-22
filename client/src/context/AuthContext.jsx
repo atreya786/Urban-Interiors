@@ -1,8 +1,9 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => { 
+export const AuthProvider = ({ children }) => {
+  // const [token, setToken] = useState("");
   const token = localStorage.getItem("token") || "";
 
   const login = async (email, password) => {
