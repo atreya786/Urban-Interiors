@@ -7,7 +7,6 @@ function Footer() {
       <footer className="py-5">
         <div className="row">
           <div className="col-6 col-md-2 mb-3">
-            <h5>Section</h5>
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
                 <a href="#" className="text-w nav-link p-0 ">
@@ -16,7 +15,7 @@ function Footer() {
               </li>
               <li className="nav-item mb-2">
                 <a href="#" className=" text-w nav-link p-0 ">
-                  Features
+                  Category
                 </a>
               </li>
               <li className="nav-item mb-2">
@@ -26,18 +25,17 @@ function Footer() {
               </li>
               <li className="nav-item mb-2">
                 <a href="#" className=" text-w nav-link p-0 ">
-                  FAQs
+                  Query
                 </a>
               </li>
               <li className="nav-item mb-2">
                 <a href="#" className=" text-w nav-link p-0 ">
-                  About
+                  Feedback
                 </a>
               </li>
             </ul>
           </div>
           <div className="col-6 col-md-2 mb-3">
-            <h5>Section</h5>
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
                 <a href="#" className="text-w nav-link p-0 ">
@@ -46,28 +44,22 @@ function Footer() {
               </li>
               <li className="nav-item mb-2">
                 <a href="#" className=" text-w nav-link p-0 ">
-                  Features
+                  Category
                 </a>
               </li>
               <li className="nav-item mb-2">
                 <a href="#" className=" text-w nav-link p-0">
-                  Pricing
+                  Contact
                 </a>
               </li>
               <li className="nav-item mb-2">
                 <a href="#" className=" text-w nav-link p-0 ">
-                  FAQs
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0 ">
-                  About
+                  Help
                 </a>
               </li>
             </ul>
           </div>
           <div className="col-6 col-md-2 mb-3">
-            <h5>Section</h5>
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
                 <a href="#" className="text-w nav-link p-0 ">

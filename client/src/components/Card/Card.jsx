@@ -1,4 +1,5 @@
 import { Card, Grid, Row, Text } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 
 export default function Carousel() {
   const list = [
@@ -41,6 +42,10 @@ export default function Carousel() {
       img: "https://www.cyruscrafts.com/img/cms/blog/hang-wall-art-without-nails/best-way-to-hang-pictures-without-nails.jpg",
     },
   ];
+  const navigate = useNavigate()
+  const handleNavigate = ()=>{
+    navigate("/Categories")
+  }
 
   return (
     <div className="container">
@@ -48,7 +53,7 @@ export default function Carousel() {
    <h2><b>| </b>Start Browsing</h2>
     <Grid.Container gap={1.5} justify="flex-start">
       {list.map((item, index) => (
-        <Grid xs={6} sm={3} key={index}>
+        <Grid xs={6} sm={3} key={index} onClick={handleNavigate}>
           <Card isPressable>
             <Card.Body css={{ p: 0 }}>
               <Card.Image
