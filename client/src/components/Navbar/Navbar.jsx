@@ -1,15 +1,34 @@
-import { Navbar, Button, Text } from "@nextui-org/react";
+import { Navbar, Button, Text, Avatar } from "@nextui-org/react";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal, Input, Row, Checkbox, Textarea } from "@nextui-org/react";
 import image from "./logo.png";
 
+const SearchIcon = ({ size, fill, width = 24, height = 24, ...props }) => {
+  return (
+    <svg
+      fill="none"
+      height={size || height}
+      viewBox="0 0 24 24"
+      width={size || width}
+      {...props}
+    >
+      <path
+        d="M11.5 21a9.5 9.5 0 1 0 0-19 9.5 9.5 0 0 0 0 19ZM22 22l-2-2"
+        stroke={fill}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+      />
+    </svg>
+  );
+};
+
 const NewNavbar = () => {
-  const { login } = useContext(AuthContext);
+  const { login, token, logout } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { token, logout } = useContext(AuthContext);
   // console.log(token);
 
   const handleLogin = async () => {
@@ -21,10 +40,6 @@ const NewNavbar = () => {
   const closeHandler = () => {
     setVisible(false);
     // console.log("closed");
-  };
-
-  const handleLogout = () => {
-    logout();
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -59,7 +74,7 @@ const NewNavbar = () => {
       }),
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
 
     // Reset form fields
     setUsername("");
@@ -73,6 +88,12 @@ const NewNavbar = () => {
     closeModal();
   };
 
+  const navigate = useNavigate();
+  const handleProfile = () => {
+    console.log("clicked");
+    navigate("/Profile");
+  };
+
   const active = window.location.pathname;
 
   return (
@@ -80,32 +101,36 @@ const NewNavbar = () => {
       <Navbar isBordered variant="sticky">
         <Navbar.Brand>
           <Link to="/">
-          <img src={image} style={{height:"3rem", width:"15rem"}} alt="" />
+            <img
+              src={image}
+              style={{ height: "3rem", width: "15rem" }}
+              alt=""
+            />
           </Link>
         </Navbar.Brand>
         <Navbar.Content hideIn="xs" variant="highlight-rounded">
+          <Navbar.Link isActive={active === "/" ? true : false} href="/">
+            Home
+          </Navbar.Link>
           <Navbar.Link
-            isActive={active === "/Products" ? true : false}
-            href="Products"
+            isActive={active === "/Categories" ? true : false}
+            href="Categories"
           >
-            Products
+            Categories
           </Navbar.Link>
           <Navbar.Link
             isActive={active === "/About" ? true : false}
             href="About"
           >
-            About
+            About Us
           </Navbar.Link>
           <Navbar.Link
             isActive={active === "/Contact" ? true : false}
             href="Contact"
           >
-            Contact
+            Contact Us
           </Navbar.Link>
-          <Navbar.Link
-            isActive={active === "/company" ? true : false}
-            href="company"
-          >
+          <Navbar.Link isActive={active === "/Cart" ? true : false} href="Cart">
             Cart
           </Navbar.Link>
         </Navbar.Content>
@@ -113,9 +138,40 @@ const NewNavbar = () => {
           <Navbar.Item>
             <>
               {token ? (
-                <Button auto onPress={handleLogout}>
-                  Logout
-                </Button>
+                <>
+                  <Input
+                    clearable
+                    contentLeft={
+                      <SearchIcon
+                        fill="var(--nextui-colors-accents6)"
+                        size={16}
+                      />
+                    }
+                    contentLeftStyling={false}
+                    css={{
+                      w: "100%",
+                      "@xsMax": {
+                        mw: "300px",
+                      },
+                      "& .nextui-input-content--left": {
+                        h: "100%",
+                        ml: "$4",
+                        dflex: "center",
+                      },
+                    }}
+                    placeholder="Search..."
+                  />
+                  <span onClick={handleProfile}>
+                    <Avatar
+                      className="mx-2"
+                      bordered
+                      as="button"
+                      color="secondary"
+                      size="lg"
+                      src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                    />
+                  </span>
+                </>
               ) : (
                 <>
                   <Button auto flat onPress={handler}>
