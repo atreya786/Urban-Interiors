@@ -16,8 +16,12 @@ const Cart = () => {
   const [expiry, setCardExp] = useState("");
   const [cardNum, setCardNum] = useState("");
   const [shipping, setShipping] = useState(20.0);
+  const { cartItems, addToCart, removeFromCart, fetchCartItems } =
+    useContext(CartContext);
 
-  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
 
   const [show, setShow] = useState(false);
   const handleShow = () => {
@@ -42,20 +46,14 @@ const Cart = () => {
   const calculateSubtotal = () => {
     let sum = 0;
     cartItems.forEach((item) => {
-      sum += item.price;
+      sum += item.cartItem.cartItem.price;
     });
     setSubtotal(sum);
   };
 
-  const addItemToCart = (itemID) => {
-    console.log(itemID)
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.id === itemID.id) {
-        return { ...item, quantity: item.quantity + 1 };
-      }
-      return item;
-    });
-    addToCart(itemID);
+  const addItemToCart = (item) => {
+    console.log(item);
+    addToCart(item);
     calculateSubtotal();
   };
 
@@ -94,21 +92,23 @@ const Cart = () => {
 
             {cartItems.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="d-flex justify-content-between align-items-center mt-2 p-2 items rounded"
               >
                 <div className="d-flex flex-row">
                   <img
                     className="rounded"
-                    src={item.image}
+                    src={item.cartItem.cartItem.image}
                     width="40"
                     alt="Product"
                   />
                   <div className="ml-2">
                     <span className="font-weight-bold d-block">
-                      {item.name}
+                      {item.cartItem.cartItem.name}
                     </span>
-                    <span className="spec">{item.description}</span>
+                    <span className="spec">
+                      {item.cartItem.cartItem.description}
+                    </span>
                   </div>
                 </div>
                 <div className="d-flex flex-row align-items-center">
@@ -122,15 +122,18 @@ const Cart = () => {
                         marginTop: "-11px",
                       }}
                       onClick={() => {
-                        if (item.quantity > 1) {
+                        if (item.cartItem.cartItem.quantity > 1) {
                           cartItems.map((cartItem) => {
-                            if (cartItem.id === item.id) {
+                            if (
+                              item.cartItem.cartItem.id ===
+                              item.cartItem.cartItem.id
+                            ) {
                               return {
                                 ...cartItem,
-                                quantity: cartItem.quantity - 1,
+                                quantity: item.cartItem.cartItem.quantity - 1,
                               };
                             }
-                            removeFromCart(item.id);
+                            removeFromCart(item._id);
                           });
                           calculateSubtotal();
                         }
@@ -156,19 +159,19 @@ const Cart = () => {
                         marginTop: "-11px",
                       }}
                       className="mx-1"
-                      onClick={() => addItemToCart(item)}
+                      onClick={() => addItemToCart(item.cartItem.cartItem)}
                     >
                       <FontAwesomeIcon icon={faPlus} beat />
                     </button>
                   </span>
 
                   <span className="d-block ml-3 font-weight-bold mx-2">
-                    ₹{item.price}
+                    ₹{item.cartItem.cartItem.price}
                   </span>
                   <FontAwesomeIcon
                     icon={faTrashAlt}
                     className="ml-3 cursor-pointer"
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item._id)}
                   />
                 </div>
               </div>

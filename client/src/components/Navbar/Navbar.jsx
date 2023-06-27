@@ -27,7 +27,7 @@ const SearchIcon = ({ size, fill, width = 24, height = 24, ...props }) => {
 };
 
 const NewNavbar = () => {
-  const { login, token, logout } = useContext(AuthContext);
+  const { login, token } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // console.log(token);
@@ -76,7 +76,7 @@ const NewNavbar = () => {
     });
     const json = await response.json();
     // console.log(json);
-
+    alert("Registered Successfully")
     // Reset form fields
     setUsername("");
     setNewEmail("");
@@ -91,11 +91,11 @@ const NewNavbar = () => {
 
   const navigate = useNavigate();
   const handleProfile = () => {
-    console.log("clicked");
+    // console.log("clicked");
     navigate("/Profile");
   };
 
-  const {search, updateSearch} = useContext(SearchContext)
+  const { search, updateSearch } = useContext(SearchContext);
 
   const active = window.location.pathname;
 
@@ -164,7 +164,9 @@ const NewNavbar = () => {
                     }}
                     placeholder="Search..."
                     value={search}
-                    onChange={(e)=>{updateSearch(e.target.value)}}
+                    onChange={(e) => {
+                      updateSearch(e.target.value);
+                    }}
                   />
                   <span onClick={handleProfile}>
                     <Avatar

@@ -1,14 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Profile.css";
 import UserContext from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthContext";
 import { CartContext } from "../../context/CartContext";
-import image from "../../components/Assets/Atreya.jpg"
+import image from "../../components/Assets/Atreya.jpg";
 
 const Profile = () => {
   const { user } = useContext(UserContext);
   const { logout } = useContext(AuthContext);
-  const { cartItems, wishListItems } = useContext(CartContext);
+  const { cartItems, wishListItems, fetchCartItems } = useContext(CartContext);
+  const { getUser } = useContext(UserContext);
+
+  useEffect(() => {
+    getUser();
+    fetchCartItems();
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -27,7 +33,6 @@ const Profile = () => {
                     className="rounded-circle p-1 bg-secondary"
                     width={230}
                     height={250}
-
                   />
                   <div className="mt-3   p-1">
                     <h4>
@@ -61,7 +66,7 @@ const Profile = () => {
             <div className="main-box no-header clearfix">
               <div className="main-box-body clearfix">
                 <div className="table-responsive">
-                <h2>My Orders</h2>
+                  <h2>My Orders</h2>
                   <table className="table user-list">
                     <thead>
                       <tr>
@@ -81,42 +86,27 @@ const Profile = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://imageresizer.furnituredealer.net/img/remote/images.furnituredealer.net/img/products/signature_design_by_ashley/color/mirimynh505_h505-610-b1.jpg?format=webp&quality=85&width=450&height=450&scale=both&trim.threshold=20"
-                            alt=""
-                          />
-                          <h6>Small Desk</h6>
-                        </td>
-                        <td className="text-center">1</td>
-                        <td className="text-center">
-                          <h6>₹5999</h6>
-                        </td>
-                        <td className="text-center">
-                          <h6>24/06/23</h6>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://imageresizer.furnituredealer.net/img/remote/images.furnituredealer.net/b/p/a1e18853-5f6b-4575-b42b-6c376b416583/assets/72ef7626bf41485bb61ef711c5451d66.jpg?format=webp&quality=85&width=450&height=450&scale=both&trim.threshold=20"
-                            alt=""
-                          />
-                          <h6>Desk Chair</h6>
-                        </td>
-                        <td className="text-center">1</td>
-                        <td className="text-center">
-                          <h6>₹3999</h6>
-                        </td>
-                        <td className="text-center">
-                          <h6>24/06/23</h6>
-                        </td>
-                      </tr>
+                      {cartItems.map((el) => {
+                        return (
+                          <tr>
+                            <td>
+                              <img src={el.cartItem.cartItem.image} alt="" />
+                              <h6>{el.cartItem.cartItem.name}</h6>
+                            </td>
+                            <td className="text-center">1</td>
+                            <td className="text-center">
+                              <h6>₹{el.cartItem.cartItem.price}</h6>
+                            </td>
+                            <td className="text-center">
+                              <h6>24/06/23</h6>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
-                  </div>
-                  <div className="table-responsive">
+                </div>
+                <div className="table-responsive">
                   <hr />
                   <h2>Wishlist</h2>
                   <table className="table user-list">

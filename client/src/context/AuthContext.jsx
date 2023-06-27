@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext } from "react";
 
 export const AuthContext = createContext();
 
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    window.location.href= "/"
+    window.location.href = "/";
   };
 
   return (

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./Details.css";
 import { ProductContext } from "../../context/ProductContext";
 import { CartContext } from "../../context/CartContext";
 function Details() {
@@ -38,7 +37,7 @@ function Details() {
   };
 
   return (
-    <div className="container" style={{ height: "100vh" }}>
+    <div className="container">
       {selectedProduct && (
         <div key={selectedProduct.id}>
           <h1>{selectedProduct.name}</h1>
@@ -83,7 +82,8 @@ function Details() {
                 {!added ? (
                   <>
                     <button
-                      className="btn btn-danger" style={{marginRight:"8px"}}
+                      className="btn btn-danger"
+                      style={{ marginRight: "8px" }}
                       onClick={() => handleAdd(selectedProduct)}
                     >
                       Add to Cart
@@ -107,14 +107,16 @@ function Details() {
                 )}
                 {wishlist ? (
                   <button
-                    className="btn btn-outline-danger" style={{marginRight:"8px"}}
+                    className="btn btn-outline-danger"
+                    style={{ marginRight: "8px" }}
                     onClick={() => handleRemoveWish(selectedProduct.id)}
                   >
                     Remove from Wishlist
                   </button>
                 ) : (
                   <button
-                    className="btn btn-outline-danger" style={{marginRight:"8px"}}
+                    className="btn btn-outline-danger"
+                    style={{ marginRight: "8px" }}
                     onClick={() => handleAddWish(selectedProduct)}
                   >
                     Add to Wishlist
