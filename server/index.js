@@ -5,11 +5,12 @@ const { Schema } = mongoose;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+const { ObjectId } = require("mongodb");
 
 const app = express();
 app.use(cors());
 
-const client = mongoose.connect("mongodb://127.0.0.1:27017/Urban-Interiors");
+mongoose.connect("mongodb://127.0.0.1:27017/Urban-Interiors");
 
 const UserSchema = new Schema({
   username: { type: String, required: true },
@@ -18,6 +19,8 @@ const UserSchema = new Schema({
   phone: { type: Number, required: true },
   address: { type: String, required: true },
 });
+
+const User = mongoose.model("User", UserSchema);
 
 const productSchema = new mongoose.Schema({
   name: String,
@@ -28,8 +31,6 @@ const productSchema = new mongoose.Schema({
 });
 
 const Products = mongoose.model("Products", productSchema);
-
-const User = mongoose.model("User", UserSchema);
 
 app.use(bodyParser.json());
 
@@ -105,6 +106,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+// Get Products end point
 app.get(`/products/:id`, async (req, res) => {
   try {
     const data = await Products.find({ Products });
@@ -137,7 +139,6 @@ app.get(`/products/:id`, async (req, res) => {
 });
 
 // User end point
-
 async function getUser(_id) {
   try {
     const user = await User.findOne({ _id });
@@ -172,6 +173,85 @@ app.get("/user", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(401).json({ error: "Invalid token" });
+  }
+});
+
+const orderSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  cartItem: { type: Object, required: true },
+});
+
+const Order = mongoose.model("Order", orderSchema);
+
+// Order post end point
+app.post("/orders", async (req, res) => {
+  const cartItem = req.body;
+  const token = JSON.parse(req.headers.authorization);
+  // console.log(token);
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.user.id;
+
+    const order = await Order.create({ userId, cartItem });
+
+    res.status(201).json({ order });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error adding item to cart" });
+  }
+});
+
+// Order get end point
+app.get("/orders", async (req, res) => {
+  const token = JSON.parse(req.headers.authorization);
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.user.id;
+
+    const orders = await Order.find({ userId });
+
+    res.json({ orders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching cart items" });
+  }
+});
+
+// Delete cart item end point
+app.delete("/orders/:itemId", async (req, res) => {
+  const { itemId } = req.params;
+  const token = JSON.parse(req.headers.authorization);
+
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.user.id;
+
+    const userOrder = await Order.find({ userId });
+    // console.log(userOrder);
+
+    if (!userOrder) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+
+    // Filter out the item with the matching itemId
+    await Order.findOneAndDelete({ userId, _id: new ObjectId(itemId) });
+
+    res.status(200).json({ message: "Item removed from cart successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error removing item from cart" });
   }
 });
 
