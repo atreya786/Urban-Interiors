@@ -8,6 +8,7 @@ export const SearchProvider = ({ children }) => {
   const updateSearch = (value) => {
     setSearch(value);
   };
+  console.log(search)
 
   return (
     <SearchContext.Provider value={{ search, updateSearch }}>

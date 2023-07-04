@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Log from "./log";
 import { CartContext } from "../../context/CartContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Cart = () => {
   const [subtotal, setSubtotal] = useState(0.0);
@@ -15,9 +16,13 @@ const Cart = () => {
   const [cvv, setCardCvv] = useState("");
   const [expiry, setCardExp] = useState("");
   const [cardNum, setCardNum] = useState("");
-  const [shipping, setShipping] = useState(20.0);
+  const shipping = 20.0;
+  const { cartItems, removeFromCart, fetchCartItems } = useContext(CartContext);
+  const { token } = useContext(AuthContext);
 
-  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
 
   const [show, setShow] = useState(false);
   const handleShow = () => {
@@ -39,24 +44,53 @@ const Cart = () => {
     }
   };
 
+  const updateCartItem = async (item) => {
+    try {
+      const response = await fetch(`http://localhost:5000/carts/${item._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          cartItem: item,
+        }),
+      });
+
+      if (response.ok) {
+        // Item updated successfully
+        console.log("Item updated successfully");
+      } else {
+        // Error updating item
+        console.log("Error updating item");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const decreaseQuantity = (item) => {
+    if (item.cartItem.cartItem.quantity > 1) {
+      item.cartItem.cartItem.quantity--;
+      updateCartItem(item); // Update the item on the backend
+    }
+    calculateSubtotal();
+  };
+
+  const increaseQuantity = (item) => {
+    if (item.cartItem.cartItem.quantity < 5) {
+      item.cartItem.cartItem.quantity++;
+      updateCartItem(item); // Update the item on the backend
+    }
+    calculateSubtotal();
+  };
+
   const calculateSubtotal = () => {
     let sum = 0;
     cartItems.forEach((item) => {
-      sum += item.price;
+      sum += item.cartItem.cartItem.price * item.cartItem.cartItem.quantity;
     });
     setSubtotal(sum);
-  };
-
-  const addItemToCart = (itemID) => {
-    console.log(itemID)
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.id === itemID.id) {
-        return { ...item, quantity: item.quantity + 1 };
-      }
-      return item;
-    });
-    addToCart(itemID);
-    calculateSubtotal();
   };
 
   useEffect(() => {
@@ -94,47 +128,36 @@ const Cart = () => {
 
             {cartItems.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="d-flex justify-content-between align-items-center mt-2 p-2 items rounded"
               >
                 <div className="d-flex flex-row">
                   <img
                     className="rounded"
-                    src={item.image}
+                    src={item.cartItem.cartItem.image}
                     width="40"
                     alt="Product"
                   />
                   <div className="ml-2">
                     <span className="font-weight-bold d-block">
-                      {item.name}
+                      {item.cartItem.cartItem.name}
                     </span>
-                    <span className="spec">{item.description}</span>
+                    <span className="spec">
+                      {item.cartItem.cartItem.description}
+                    </span>
                   </div>
                 </div>
                 <div className="d-flex flex-row align-items-center">
                   <span className="d-block px-5 mx-2">
                     <button
-                      className=" cart1"
+                      className="cart1"
                       style={{
                         borderRadius: "5px",
                         position: "absolute",
                         right: "250px",
                         marginTop: "-11px",
                       }}
-                      onClick={() => {
-                        if (item.quantity > 1) {
-                          cartItems.map((cartItem) => {
-                            if (cartItem.id === item.id) {
-                              return {
-                                ...cartItem,
-                                quantity: cartItem.quantity - 1,
-                              };
-                            }
-                            removeFromCart(item.id);
-                          });
-                          calculateSubtotal();
-                        }
-                      }}
+                      onClick={() => decreaseQuantity(item)}
                     >
                       <FontAwesomeIcon icon={faMinus} beat />
                     </button>
@@ -145,9 +168,8 @@ const Cart = () => {
                         marginTop: "-11px",
                       }}
                     >
-                      1
+                      {item.cartItem.cartItem.quantity}
                     </span>
-
                     <button
                       style={{
                         borderRadius: "5px",
@@ -156,19 +178,19 @@ const Cart = () => {
                         marginTop: "-11px",
                       }}
                       className="mx-1"
-                      onClick={() => addItemToCart(item)}
+                      onClick={() => increaseQuantity(item)}
                     >
                       <FontAwesomeIcon icon={faPlus} beat />
                     </button>
                   </span>
 
                   <span className="d-block ml-3 font-weight-bold mx-2">
-                    ₹{item.price}
+                    ₹{item.cartItem.cartItem.price}
                   </span>
                   <FontAwesomeIcon
                     icon={faTrashAlt}
                     className="ml-3 cursor-pointer"
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item._id)}
                   />
                 </div>
               </div>

@@ -1,5 +1,10 @@
 import React from "react";
 import "./About.css";
+import mirza from "../../components/Assets/Mirza.jpg";
+import nibbi from "../../components/Assets/Nibbi.jpg";
+import jyoti from "../../components/Assets/Jyoti.jpg";
+import atreya from "../../components/Assets/Atreya.jpg";
+import group from "../../components/Assets/Group.jpg";
 function About() {
   return (
     <div className="container bootstrap snippets bootdey">
@@ -8,10 +13,30 @@ function About() {
           <h1 className="section-title text-center page-title">
             Small team. Big hearts.
           </h1>
-          <p className="section-description text-center">
-            We are a small team with great skills. See the faces behind the
-            lines of code.{" "}
-          </p>
+          <h5 className="section-description " style={{ textAlign: "justify" }}>
+            Urban Interiors is a dynamic and innovative website dedicated to all
+            things related to contemporary interior design. With a strong focus
+            on urban lifestyles, the website offers a wealth of inspiration,
+            ideas, and solutions for modern living spaces. From stylish
+            furniture to trendy decor, Urban Interiors curates a wide range of
+            products and designs that cater to diverse tastes and preferences.
+            <br />
+            <br />
+            The website showcases stunning visual content, featuring beautifully
+            designed interiors that combine functionality with aesthetic appeal.
+            It provides expert tips, guides, and tutorials to assist users in
+            transforming their homes into stylish and comfortable urban
+            sanctuaries.
+            <br />
+            <br />
+            Urban Interiors aims to stay at the forefront of interior design
+            trends, constantly exploring new ideas and emerging styles. With an
+            emphasis on practicality and efficiency, the website offers
+            innovative solutions for small spaces and urban dwellings,
+            maximizing functionality without compromising on style.{" "}
+          </h5>
+          <hr />
+          <h1 className="text-center">Team Members</h1>
           <div className="row member-content">
             <div className="col-sm-3 col-sm-offset-1 member-thumb">
               <img
@@ -19,10 +44,10 @@ function About() {
                   borderRadius: "50%",
                   objectFit: "cover",
                   height: "70%",
-                  width: "90%",
+                  width: "95%",
                 }}
                 className="img-responsive img-center img-thumbnail img-circle"
-                src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                src={atreya}
                 alt=""
               />
               <h4>Atreya Chandan</h4>
@@ -125,11 +150,11 @@ function About() {
                 style={{
                   borderRadius: "50%",
                   objectFit: "cover",
-                  height: "70%",
+                  height: "55%",
                   width: "90%",
                 }}
                 className="img-responsive img-center img-thumbnail img-circle"
-                src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                src={mirza}
                 alt=""
               />
               <h4>Mirza Sahid Baig</h4>
@@ -214,11 +239,11 @@ function About() {
                 style={{
                   borderRadius: "50%",
                   objectFit: "cover",
-                  height: "70%",
+                  height: "55%",
                   width: "90%",
                 }}
                 className="img-responsive img-center img-thumbnail img-circle"
-                src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                src={nibbi}
                 alt=""
               />
               <h4>Nibedita Das</h4>
@@ -231,11 +256,11 @@ function About() {
                 style={{
                   borderRadius: "50%",
                   objectFit: "cover",
-                  height: "70%",
-                  width: "90%",
+                  height: "60%",
+                  width: "80%",
                 }}
                 className="img-responsive img-center img-thumbnail img-circle"
-                src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                src={jyoti}
                 alt=""
               />
               <h4>Jyotishree Pradhan</h4>
@@ -279,6 +304,20 @@ function About() {
             </div>
           </div>
         </div>
+        <hr />
+        <center>
+        <h1>Team : TLE</h1>
+          <img
+            style={{
+              borderRadius:"15px",
+              objectFit: "cover",
+              height: "50%",
+              width: "50%",
+            }}
+            src={group}
+            alt=""
+          />
+        </center>
       </section>
     </div>
   );

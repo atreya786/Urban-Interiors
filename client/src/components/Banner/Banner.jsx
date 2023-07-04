@@ -21,7 +21,7 @@ const Banner = () => {
             <br />
             with unique decorative accesssories
           </h6>
-          <Link to="/Products" className="btn btn-danger btn-lg mx-4 my-3">
+          <Link to="/Categories" className="btn btn-danger btn-lg mx-4 my-3">
             Shop More
           </Link>
         </div>
@@ -52,7 +52,7 @@ const Banner = () => {
               <b>Living room furniture</b>
             </h4>
             <h5 className="text-w">Upto 50% Off</h5>
-            <button className="btn btn-danger">Shop Now</button>
+            <Link to="/Categories" className="btn btn-danger">Shop Now</Link>
           </div>
           <div className="col-lg-4">
             <img
@@ -64,7 +64,7 @@ const Banner = () => {
               <b>Bedroom furniture</b>
             </h4>
             <h5 className="text-w">Upto 50% Off</h5>
-            <button className="btn btn-danger">Shop Now</button>
+            <Link to="/Categories" className="btn btn-danger">Shop Now</Link>
           </div>
           <div className="col-lg-4">
             <img
@@ -76,7 +76,7 @@ const Banner = () => {
               <b>Dining room furniture</b>
             </h4>
             <h5 className="text-w">Upto 50% Off</h5>
-            <button className="btn btn-danger">Shop Now</button>
+            <Link to="/Categories" className="btn btn-danger">Shop Now</Link>
           </div>
         </div>
       </div>

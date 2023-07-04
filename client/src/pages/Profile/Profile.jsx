@@ -1,13 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Profile.css";
 import UserContext from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthContext";
 import { CartContext } from "../../context/CartContext";
+import image from "../../components/Assets/Atreya.jpg";
+import { WishlistContext } from "../../context/WishlistContext";
+import { OrderContext } from "../../context/OrderContext";
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
+  const { user, getUser } = useContext(UserContext);
   const { logout } = useContext(AuthContext);
-  const { cartItems, wishListItems } = useContext(CartContext);
+  const { orderItems, fetchOrderItems } = useContext(OrderContext);
+  const { wishlistItems, fetchWishlistItems } = useContext(WishlistContext);
+
+  useEffect(() => {
+    getUser();
+    fetchWishlistItems();
+    fetchOrderItems();
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -21,10 +31,11 @@ const Profile = () => {
               <div className="card-body">
                 <div className="d-flex flex-column align-items-center">
                   <img
-                    src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                    src={image}
                     alt="Admin"
-                    className="rounded-circle p-1 bg-primary"
-                    width={200}
+                    className="rounded-circle p-1 bg-secondary"
+                    width={230}
+                    height={250}
                   />
                   <div className="mt-3   p-1">
                     <h4>
@@ -58,12 +69,15 @@ const Profile = () => {
             <div className="main-box no-header clearfix">
               <div className="main-box-body clearfix">
                 <div className="table-responsive">
-                <h2>My Orders</h2>
+                  <h2>My Orders</h2>
                   <table className="table user-list">
                     <thead>
                       <tr>
                         <th>
-                          <span>PRODUCTS</span>
+                          <span>IMAGE</span>
+                        </th>
+                        <th className="text-center">
+                          <span>NAME</span>
                         </th>
                         <th className="text-center">
                           <span>QUANTITY</span>
@@ -78,94 +92,95 @@ const Profile = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://imageresizer.furnituredealer.net/img/remote/images.furnituredealer.net/img/products/signature_design_by_ashley/color/mirimynh505_h505-610-b1.jpg?format=webp&quality=85&width=450&height=450&scale=both&trim.threshold=20"
-                            alt=""
-                          />
-                          <h6>Small Desk</h6>
-                        </td>
-                        <td className="text-center">1</td>
-                        <td className="text-center">
-                          <h6>₹5999</h6>
-                        </td>
-                        <td className="text-center">
-                          <h6>24/06/23</h6>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://imageresizer.furnituredealer.net/img/remote/images.furnituredealer.net/b/p/a1e18853-5f6b-4575-b42b-6c376b416583/assets/72ef7626bf41485bb61ef711c5451d66.jpg?format=webp&quality=85&width=450&height=450&scale=both&trim.threshold=20"
-                            alt=""
-                          />
-                          <h6>Desk Chair</h6>
-                        </td>
-                        <td className="text-center">1</td>
-                        <td className="text-center">
-                          <h6>₹3999</h6>
-                        </td>
-                        <td className="text-center">
-                          <h6>24/06/23</h6>
-                        </td>
-                      </tr>
+                      {orderItems.map((el) => {
+                        return (
+                          <tr
+                            key={el.cartItem.orderItem[0].cartItem.cartItem.id}
+                          >
+                            <td>
+                              <img
+                                src={
+                                  el.cartItem.orderItem[0].cartItem.cartItem
+                                    .image
+                                }
+                                alt=""
+                              />
+                            </td>
+                            <td>
+                              <h6 className="text-center">
+                                {
+                                  el.cartItem.orderItem[0].cartItem.cartItem
+                                    .name
+                                }
+                              </h6>
+                            </td>
+                            <td className="text-center">
+                              {
+                                el.cartItem.orderItem[0].cartItem.cartItem
+                                  .quantity
+                              }
+                            </td>
+                            <td className="text-center">
+                              <h6>
+                                ₹
+                                {
+                                  el.cartItem.orderItem[0].cartItem.cartItem
+                                    .price
+                                }
+                              </h6>
+                            </td>
+                            <td className="text-center">
+                              <h6>24/06/23</h6>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
-                  </div>
-                  <div className="table-responsive">
+                </div>
+
+                <div className="table-responsive">
                   <hr />
                   <h2>Wishlist</h2>
                   <table className="table user-list">
                     <thead>
                       <tr>
                         <th>
-                          <span>PRODUCTS</span>
+                          <span>IMAGE</span>
+                        </th>
+                        <th className="text-center">
+                          <span>NAME</span>
                         </th>
                         <th className="text-center">
                           <span></span>
                         </th>
                         <th className="text-center">
-                          <span></span>
-                        </th>
-                        <th className="text-center">
-                          <span>Price</span>
+                          <span>PRICE</span>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQZbCfO6WFifpPcFqpzoOGV01WdpMJ9UABjw&usqp=CAU"
-                            alt=""
-                          />
-                          <h6>Om Wall Hanging</h6>
-                        </td>
-                        <td className="text-center">
-                          <h6></h6>
-                        </td>
-                        <td className="text-center"></td>
-                        <td className="text-center">
-                          <h6>₹3999</h6>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://imageresizer.furnituredealer.net/img/remote/images.furnituredealer.net/img/products%2fsignature_design_by_ashley%2fcolor%2fstracelen_8060320%2b14-b1.jpg?format=webp&quality=85&width=450&height=450&scale=both&trim.threshold=20"
-                            alt=""
-                          />
-                          <h6>Sofa and Ottoman</h6>
-                        </td>
-                        <td className="text-center"></td>
-                        <td className="text-center">
-                          <h6></h6>
-                        </td>
-                        <td className="text-center">
-                          <h6>₹24999</h6>
-                        </td>
-                      </tr>
+                      {wishlistItems.map((el) => {
+                        return (
+                          <tr>
+                            <td>
+                              <img
+                                src={el.wishlistItem.wishlistItem.image}
+                                alt=""
+                              />
+                            </td>
+                            <td className="text-center">
+                              <h6>{el.wishlistItem.wishlistItem.name}</h6>
+                            </td>
+                            <td className="text-center">
+                              <h6></h6>
+                            </td>
+                            <td className="text-center">
+                              <h6>₹{el.wishlistItem.wishlistItem.price}</h6>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
