@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { getAuth, signInWithPhoneNumber } from "firebase/auth";
 import firebase from "./Firebase";
 import "firebase/auth";
 import { Input } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../context/CartContext";
+import { OrderContext } from "../../context/OrderContext";
 
 export default function Log() {
   const [cardnumber, setCardNumber] = useState("");
@@ -67,6 +69,9 @@ export default function Log() {
       });
   };
 
+  const { cartItems } = useContext(CartContext);
+  const { addToOrder } = useContext(OrderContext);
+
   const onSubmitOtp = (e) => {
     e.preventDefault();
     const code = otp;
@@ -77,6 +82,7 @@ export default function Log() {
         const user = result.user;
         console.log(JSON.stringify(user));
         alert("Ordered Successfully");
+        addToOrder(cartItems)
         handleNavigation();
       })
       .catch((error) => {
@@ -105,13 +111,13 @@ export default function Log() {
           marginLeft: "420px",
         }}
       >
-        <h2
+        <h4
           style={{
             marginBottom: "20px",
           }}
         >
-          𝐏𝐚𝐲𝐦𝐞𝐧𝐭
-        </h2>
+          Payment Confirmation
+        </h4>
         <form
           onSubmit={onSignInSubmit}
           style={{
@@ -141,7 +147,7 @@ export default function Log() {
           />
           <button
             id="bt1"
-            className="otpBtn1 btn btn-danger btn-sm"
+            className="otpBtn1 btn btn-danger btn-sm mx-2"
             type="submit"
           >
             Submit
@@ -171,7 +177,7 @@ export default function Log() {
           <button
             id="bt1"
             type="submit"
-            className="otpBtn1 btn btn-danger btn-sm"
+            className="otpBtn1 btn btn-danger btn-sm mx-2"
           >
             Submit
           </button>

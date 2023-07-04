@@ -4,16 +4,19 @@ import UserContext from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthContext";
 import { CartContext } from "../../context/CartContext";
 import image from "../../components/Assets/Atreya.jpg";
+import { WishlistContext } from "../../context/WishlistContext";
+import { OrderContext } from "../../context/OrderContext";
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
+  const { user, getUser } = useContext(UserContext);
   const { logout } = useContext(AuthContext);
-  const { cartItems, wishListItems, fetchCartItems } = useContext(CartContext);
-  const { getUser } = useContext(UserContext);
+  const { orderItems, fetchOrderItems } = useContext(OrderContext);
+  const { wishlistItems, fetchWishlistItems } = useContext(WishlistContext);
 
   useEffect(() => {
     getUser();
-    fetchCartItems();
+    fetchWishlistItems();
+    fetchOrderItems();
   }, []);
 
   const handleLogout = () => {
@@ -71,7 +74,10 @@ const Profile = () => {
                     <thead>
                       <tr>
                         <th>
-                          <span>PRODUCTS</span>
+                          <span>IMAGE</span>
+                        </th>
+                        <th className="text-center">
+                          <span>NAME</span>
                         </th>
                         <th className="text-center">
                           <span>QUANTITY</span>
@@ -86,16 +92,42 @@ const Profile = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {cartItems.map((el) => {
+                      {orderItems.map((el) => {
                         return (
-                          <tr>
+                          <tr
+                            key={el.cartItem.orderItem[0].cartItem.cartItem.id}
+                          >
                             <td>
-                              <img src={el.cartItem.cartItem.image} alt="" />
-                              <h6>{el.cartItem.cartItem.name}</h6>
+                              <img
+                                src={
+                                  el.cartItem.orderItem[0].cartItem.cartItem
+                                    .image
+                                }
+                                alt=""
+                              />
                             </td>
-                            <td className="text-center">1</td>
+                            <td>
+                              <h6 className="text-center">
+                                {
+                                  el.cartItem.orderItem[0].cartItem.cartItem
+                                    .name
+                                }
+                              </h6>
+                            </td>
                             <td className="text-center">
-                              <h6>₹{el.cartItem.cartItem.price}</h6>
+                              {
+                                el.cartItem.orderItem[0].cartItem.cartItem
+                                  .quantity
+                              }
+                            </td>
+                            <td className="text-center">
+                              <h6>
+                                ₹
+                                {
+                                  el.cartItem.orderItem[0].cartItem.cartItem
+                                    .price
+                                }
+                              </h6>
                             </td>
                             <td className="text-center">
                               <h6>24/06/23</h6>
@@ -106,6 +138,7 @@ const Profile = () => {
                     </tbody>
                   </table>
                 </div>
+
                 <div className="table-responsive">
                   <hr />
                   <h2>Wishlist</h2>
@@ -113,52 +146,41 @@ const Profile = () => {
                     <thead>
                       <tr>
                         <th>
-                          <span>PRODUCTS</span>
+                          <span>IMAGE</span>
+                        </th>
+                        <th className="text-center">
+                          <span>NAME</span>
                         </th>
                         <th className="text-center">
                           <span></span>
                         </th>
                         <th className="text-center">
-                          <span></span>
-                        </th>
-                        <th className="text-center">
-                          <span>Price</span>
+                          <span>PRICE</span>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQZbCfO6WFifpPcFqpzoOGV01WdpMJ9UABjw&usqp=CAU"
-                            alt=""
-                          />
-                          <h6>Om Wall Hanging</h6>
-                        </td>
-                        <td className="text-center">
-                          <h6></h6>
-                        </td>
-                        <td className="text-center"></td>
-                        <td className="text-center">
-                          <h6>₹3999</h6>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://imageresizer.furnituredealer.net/img/remote/images.furnituredealer.net/img/products%2fsignature_design_by_ashley%2fcolor%2fstracelen_8060320%2b14-b1.jpg?format=webp&quality=85&width=450&height=450&scale=both&trim.threshold=20"
-                            alt=""
-                          />
-                          <h6>Sofa and Ottoman</h6>
-                        </td>
-                        <td className="text-center"></td>
-                        <td className="text-center">
-                          <h6></h6>
-                        </td>
-                        <td className="text-center">
-                          <h6>₹24999</h6>
-                        </td>
-                      </tr>
+                      {wishlistItems.map((el) => {
+                        return (
+                          <tr>
+                            <td>
+                              <img
+                                src={el.wishlistItem.wishlistItem.image}
+                                alt=""
+                              />
+                            </td>
+                            <td className="text-center">
+                              <h6>{el.wishlistItem.wishlistItem.name}</h6>
+                            </td>
+                            <td className="text-center">
+                              <h6></h6>
+                            </td>
+                            <td className="text-center">
+                              <h6>₹{el.wishlistItem.wishlistItem.price}</h6>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>

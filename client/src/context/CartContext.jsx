@@ -1,17 +1,15 @@
-import React, { createContext, useState } from "react";
-import { useContext } from "react";
+import React, { createContext, useState, useContext } from "react";
 import { AuthContext } from "./AuthContext";
 
 const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [wishlistItems, setWishlistItems] = useState([]);
   const { token } = useContext(AuthContext);
 
   const addToCart = async (item) => {
     try {
-      const response = await fetch("http://localhost:5000/orders", {
+      const response = await fetch("http://localhost:5000/carts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +29,7 @@ const CartProvider = ({ children }) => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await fetch("http://localhost:5000/orders", {
+      const response = await fetch("http://localhost:5000/carts", {
         method: "GET",
         headers: {
           Authorization: token,
@@ -44,15 +42,10 @@ const CartProvider = ({ children }) => {
       console.log(error);
     }
   };
-  // console.log(cartItems);
-
-  const addToWishlist = (item) => {
-    setWishlistItems([...wishlistItems, item]);
-  };
 
   const removeFromCart = async (itemId) => {
     try {
-      await fetch(`http://localhost:5000/orders/${itemId}`, {
+      await fetch(`http://localhost:5000/carts/${itemId}`, {
         method: "DELETE",
         headers: {
           Authorization: token,
@@ -64,22 +57,12 @@ const CartProvider = ({ children }) => {
     }
   };
 
-  const removeFromWishlist = (itemId) => {
-    setWishlistItems(wishlistItems.filter((item) => item.id !== itemId));
-  };
-
-  // console.log(cartItems);
-  // console.log(wishlistItems);
-
   return (
     <CartContext.Provider
       value={{
         cartItems,
         addToCart,
         removeFromCart,
-        addToWishlist,
-        removeFromWishlist,
-        wishlistItems,
         fetchCartItems,
       }}
     >
@@ -87,5 +70,7 @@ const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+
 
 export { CartContext, CartProvider };

@@ -2,20 +2,16 @@ import React, { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { CartContext } from "../../context/CartContext";
+import { WishlistContext } from "../../context/WishlistContext";
+
 function Details() {
   const navigate = useNavigate();
+  const [added, setAdded] = useState(false);
   const { data } = useContext(ProductContext);
   const { id } = useParams();
   const selectedProduct = data.find((product) => product.id === parseInt(id));
 
-  // console.log(selectedProduct);
-  const handleReturn = () => {
-    navigate("/Productdetails");
-  };
-  const [added, setAdded] = useState(false);
-  const [wishlist, setWishlist] = useState(false);
   const { addToCart, removeFromCart } = useContext(CartContext);
-  const { addToWishlist, removeFromWishlist } = useContext(CartContext);
   const handleAdd = (item) => {
     addToCart(item);
     setAdded(true);
@@ -27,12 +23,21 @@ function Details() {
   const handleNavigate = () => {
     navigate("/Cart");
   };
-  const handleAddWish = (item) => {
+
+  const handleReturn = () => {
+    navigate("/Productdetails");
+  };
+
+  const [wishlist, setWishlist] = useState(false);
+  const { addToWishlist, removeFromWishlist } = useContext(WishlistContext);
+
+  const handleAddToWishlist = (item) => {
     addToWishlist(item);
     setWishlist(true);
   };
-  const handleRemoveWish = (id) => {
-    removeFromWishlist(id);
+
+  const handleRemoveFromWishlist = (itemId) => {
+    removeFromWishlist(itemId);
     setWishlist(false);
   };
 
@@ -105,21 +110,21 @@ function Details() {
                     </button>
                   </>
                 )}
-                {wishlist ? (
+                {!wishlist ? (
                   <button
                     className="btn btn-outline-danger"
                     style={{ marginRight: "8px" }}
-                    onClick={() => handleRemoveWish(selectedProduct.id)}
+                    onClick={() => handleAddToWishlist(selectedProduct)}
                   >
-                    Remove from Wishlist
+                    Add to Wishlist
                   </button>
                 ) : (
                   <button
                     className="btn btn-outline-danger"
                     style={{ marginRight: "8px" }}
-                    onClick={() => handleAddWish(selectedProduct)}
+                    onClick={() => handleRemoveFromWishlist(selectedProduct.id)}
                   >
-                    Add to Wishlist
+                    Remove from Wishlist
                   </button>
                 )}
                 <button
@@ -137,4 +142,5 @@ function Details() {
     </div>
   );
 }
+
 export default Details;

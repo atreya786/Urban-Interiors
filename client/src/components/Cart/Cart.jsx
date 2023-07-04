@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Log from "./log";
 import { CartContext } from "../../context/CartContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Cart = () => {
   const [subtotal, setSubtotal] = useState(0.0);
@@ -15,9 +16,9 @@ const Cart = () => {
   const [cvv, setCardCvv] = useState("");
   const [expiry, setCardExp] = useState("");
   const [cardNum, setCardNum] = useState("");
-  const [shipping, setShipping] = useState(20.0);
-  const { cartItems, addToCart, removeFromCart, fetchCartItems } =
-    useContext(CartContext);
+  const shipping = 20.0;
+  const { cartItems, removeFromCart, fetchCartItems } = useContext(CartContext);
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     fetchCartItems();
@@ -43,18 +44,53 @@ const Cart = () => {
     }
   };
 
+  const updateCartItem = async (item) => {
+    try {
+      const response = await fetch(`http://localhost:5000/carts/${item._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          cartItem: item,
+        }),
+      });
+
+      if (response.ok) {
+        // Item updated successfully
+        console.log("Item updated successfully");
+      } else {
+        // Error updating item
+        console.log("Error updating item");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const decreaseQuantity = (item) => {
+    if (item.cartItem.cartItem.quantity > 1) {
+      item.cartItem.cartItem.quantity--;
+      updateCartItem(item); // Update the item on the backend
+    }
+    calculateSubtotal();
+  };
+
+  const increaseQuantity = (item) => {
+    if (item.cartItem.cartItem.quantity < 5) {
+      item.cartItem.cartItem.quantity++;
+      updateCartItem(item); // Update the item on the backend
+    }
+    calculateSubtotal();
+  };
+
   const calculateSubtotal = () => {
     let sum = 0;
     cartItems.forEach((item) => {
-      sum += item.cartItem.cartItem.price;
+      sum += item.cartItem.cartItem.price * item.cartItem.cartItem.quantity;
     });
     setSubtotal(sum);
-  };
-
-  const addItemToCart = (item) => {
-    console.log(item);
-    addToCart(item);
-    calculateSubtotal();
   };
 
   useEffect(() => {
@@ -114,30 +150,14 @@ const Cart = () => {
                 <div className="d-flex flex-row align-items-center">
                   <span className="d-block px-5 mx-2">
                     <button
-                      className=" cart1"
+                      className="cart1"
                       style={{
                         borderRadius: "5px",
                         position: "absolute",
                         right: "250px",
                         marginTop: "-11px",
                       }}
-                      onClick={() => {
-                        if (item.cartItem.cartItem.quantity > 1) {
-                          cartItems.map((cartItem) => {
-                            if (
-                              item.cartItem.cartItem.id ===
-                              item.cartItem.cartItem.id
-                            ) {
-                              return {
-                                ...cartItem,
-                                quantity: item.cartItem.cartItem.quantity - 1,
-                              };
-                            }
-                            removeFromCart(item._id);
-                          });
-                          calculateSubtotal();
-                        }
-                      }}
+                      onClick={() => decreaseQuantity(item)}
                     >
                       <FontAwesomeIcon icon={faMinus} beat />
                     </button>
@@ -148,9 +168,8 @@ const Cart = () => {
                         marginTop: "-11px",
                       }}
                     >
-                      1
+                      {item.cartItem.cartItem.quantity}
                     </span>
-
                     <button
                       style={{
                         borderRadius: "5px",
@@ -159,7 +178,7 @@ const Cart = () => {
                         marginTop: "-11px",
                       }}
                       className="mx-1"
-                      onClick={() => addItemToCart(item.cartItem.cartItem)}
+                      onClick={() => increaseQuantity(item)}
                     >
                       <FontAwesomeIcon icon={faPlus} beat />
                     </button>
