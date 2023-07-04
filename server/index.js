@@ -8,9 +8,19 @@ const cors = require("cors");
 const { ObjectId } = require("mongodb");
 
 const app = express();
+app.use(bodyParser.json());
 app.use(cors());
 
-mongoose.connect("mongodb://127.0.0.1:27017/Urban-Interiors");
+mongoose
+  .connect(
+    "mongodb+srv://Atreya-Chandan:Atreya786@my-db.0l8w9lc.mongodb.net/?retryWrites=true&w=majority"
+  )
+  .then(() => {
+    console.log("Connected to MongoDB Atlas");
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB Atlas:", error);
+  });
 
 const UserSchema = new Schema({
   username: { type: String, required: true },
@@ -32,7 +42,23 @@ const productSchema = new mongoose.Schema({
 
 const Products = mongoose.model("Products", productSchema);
 
-app.use(bodyParser.json());
+const cartSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  cartItem: { type: Object, required: true },
+});
+
+const Cart = mongoose.model("Cart", cartSchema);
+const Order = mongoose.model("Order", cartSchema);
+
+const wishlistSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  wishlistItem: { type: Object, required: true },
+});
+
+const Wishlist = mongoose.model("Wishlist", wishlistSchema);
 
 // Signup end point
 app.post("/api/signup", async (req, res) => {
@@ -150,6 +176,7 @@ async function getUser(_id) {
   }
 }
 
+// Get user end point
 app.get("/user", async (req, res) => {
   const token = JSON.parse(req.headers.authorization);
   // console.log(token);
@@ -175,13 +202,6 @@ app.get("/user", async (req, res) => {
     res.status(401).json({ error: "Invalid token" });
   }
 });
-
-const orderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  cartItem: { type: Object, required: true },
-});
-
-const Order = mongoose.model("Order", orderSchema);
 
 // Order post end point
 app.post("/orders", async (req, res) => {
@@ -224,9 +244,77 @@ app.get("/orders", async (req, res) => {
     res.status(500).json({ error: "Error fetching cart items" });
   }
 });
+// Cartitem post end point
+app.post("/carts", async (req, res) => {
+  const cartItem = req.body;
+  const token = JSON.parse(req.headers.authorization);
+  // console.log(token);
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.user.id;
+
+    const order = await Cart.create({ userId, cartItem });
+
+    res.status(201).json({ order });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error adding item to cart" });
+  }
+});
+
+// Cartitem get end point
+app.get("/carts", async (req, res) => {
+  const token = JSON.parse(req.headers.authorization);
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.user.id;
+
+    const orders = await Cart.find({ userId });
+
+    res.json({ orders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching cart items" });
+  }
+});
+
+// Endpoint to update an cart item
+app.put("/carts/:itemId", async (req, res) => {
+  try {
+    const itemId = req.params.itemId;
+    const updatedCartItem = req.body.cartItem;
+
+    const updatedOrderItem = await Cart.findOneAndUpdate(
+      { _id: itemId },
+      updatedCartItem,
+      { new: true }
+    );
+
+    if (!updatedOrderItem) {
+      return res.status(404).json({ error: "Order item not found" });
+    }
+
+    // Return the updated order item as the response
+    res.json({
+      message: "Order item updated successfully",
+      orderItem: updatedOrderItem,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 // Delete cart item end point
-app.delete("/orders/:itemId", async (req, res) => {
+app.delete("/carts/:itemId", async (req, res) => {
   const { itemId } = req.params;
   const token = JSON.parse(req.headers.authorization);
 
@@ -238,7 +326,7 @@ app.delete("/orders/:itemId", async (req, res) => {
     const decoded = jwt.verify(token, "secret");
     const userId = decoded.user.id;
 
-    const userOrder = await Order.find({ userId });
+    const userOrder = await Cart.find({ userId });
     // console.log(userOrder);
 
     if (!userOrder) {
@@ -246,12 +334,55 @@ app.delete("/orders/:itemId", async (req, res) => {
     }
 
     // Filter out the item with the matching itemId
-    await Order.findOneAndDelete({ userId, _id: new ObjectId(itemId) });
+    await Cart.findOneAndDelete({ userId, _id: new ObjectId(itemId) });
 
     res.status(200).json({ message: "Item removed from cart successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error removing item from cart" });
+  }
+});
+
+// Wishlist post endpoint
+app.post("/wishlists", async (req, res) => {
+  const wishlistItem = req.body;
+  const token = JSON.parse(req.headers.authorization);
+
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.user.id;
+
+    const wishlist = await Wishlist.create({ userId, wishlistItem });
+
+    res.status(201).json({ wishlist });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error adding item to wishlist" });
+  }
+});
+
+// Wishlist get endpoint
+app.get("/wishlists", async (req, res) => {
+  const token = JSON.parse(req.headers.authorization);
+
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.user.id;
+
+    const wishlistItems = await Wishlist.find({ userId });
+
+    res.json({ wishlistItems });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching wishlist items" });
   }
 });
 
