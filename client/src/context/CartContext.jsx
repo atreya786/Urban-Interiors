@@ -9,7 +9,7 @@ const CartProvider = ({ children }) => {
 
   const addToCart = async (item) => {
     try {
-      const response = await fetch("http://localhost:5000/carts", {
+      const response = await fetch("https://urban-interiors-server.vercel.app/carts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const CartProvider = ({ children }) => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await fetch("http://localhost:5000/carts", {
+      const response = await fetch("https://urban-interiors-server.vercel.app/carts", {
         method: "GET",
         headers: {
           Authorization: token,
@@ -45,7 +45,7 @@ const CartProvider = ({ children }) => {
 
   const removeFromCart = async (itemId) => {
     try {
-      await fetch(`http://localhost:5000/carts/${itemId}`, {
+      await fetch(`https://urban-interiors-server.vercel.app/carts/${itemId}`, {
         method: "DELETE",
         headers: {
           Authorization: token,

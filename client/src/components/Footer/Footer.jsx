@@ -9,27 +9,27 @@ function Footer() {
           <div className="col-6 col-md-2 mb-3">
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
-                <a href="#" className="text-w nav-link p-0 ">
+                <a href="/" className="text-w nav-link p-0 ">
                   Home
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0 ">
+                <a href="/" className=" text-w nav-link p-0 ">
                   Category
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0">
+                <a href="/" className=" text-w nav-link p-0">
                   Pricing
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0 ">
+                <a href="/" className=" text-w nav-link p-0 ">
                   Query
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0 ">
+                <a href="/" className=" text-w nav-link p-0 ">
                   Feedback
                 </a>
               </li>
@@ -38,22 +38,22 @@ function Footer() {
           <div className="col-6 col-md-2 mb-3">
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
-                <a href="#" className="text-w nav-link p-0 ">
+                <a href="/" className="text-w nav-link p-0 ">
                   Home
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0 ">
+                <a href="/" className=" text-w nav-link p-0 ">
                   Category
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0">
+                <a href="/" className=" text-w nav-link p-0">
                   Contact
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0 ">
+                <a href="/" className=" text-w nav-link p-0 ">
                   Help
                 </a>
               </li>
@@ -62,27 +62,27 @@ function Footer() {
           <div className="col-6 col-md-2 mb-3">
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
-                <a href="#" className="text-w nav-link p-0 ">
+                <a href="/" className="text-w nav-link p-0 ">
                   Home
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0 ">
+                <a href="/" className=" text-w nav-link p-0 ">
                   Features
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0">
+                <a href="/" className=" text-w nav-link p-0">
                   Pricing
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0 ">
+                <a href="/" className=" text-w nav-link p-0 ">
                   FAQs
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="#" className=" text-w nav-link p-0 ">
+                <a href="/" className=" text-w nav-link p-0 ">
                   About
                 </a>
               </li>
@@ -111,21 +111,21 @@ function Footer() {
           <p className="text-w ">© 2023 Company, Inc. All rights reserved.</p>
           <ul className="list-unstyled d-flex">
             <li className="ms-3">
-              <a className="link-body-emphasis" href="#">
+              <a className="link-body-emphasis" href="/">
                 <svg className="bi" width={24} height={24}>
                   <use xlinkHref="#twitter" />
                 </svg>
               </a>
             </li>
             <li className="ms-3">
-              <a className="link-body-emphasis" href="#">
+              <a className="link-body-emphasis" href="/">
                 <svg className="bi" width={24} height={24}>
                   <use xlinkHref="#instagram" />
                 </svg>
               </a>
             </li>
             <li className="ms-3">
-              <a className="link-body-emphasis" href="#">
+              <a className="link-body-emphasis" href="/">
                 <svg className="bi" width={24} height={24}>
                   <use xlinkHref="#facebook" />
                 </svg>

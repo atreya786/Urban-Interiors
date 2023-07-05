@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { CartContext } from "../../context/CartContext";
 import { WishlistContext } from "../../context/WishlistContext";
+import { AuthContext } from "../../context/AuthContext";
 
 function Details() {
   const navigate = useNavigate();
@@ -12,9 +13,15 @@ function Details() {
   const selectedProduct = data.find((product) => product.id === parseInt(id));
 
   const { addToCart, removeFromCart } = useContext(CartContext);
+  const { token } = useContext(AuthContext);
   const handleAdd = (item) => {
-    addToCart(item);
-    setAdded(true);
+    if (token) {
+      addToCart(item);
+      setAdded(true);
+    } else {
+      alert("Login First");
+      navigate("/");
+    }
   };
   const handleRemove = (id) => {
     removeFromCart(id);
@@ -32,8 +39,13 @@ function Details() {
   const { addToWishlist, removeFromWishlist } = useContext(WishlistContext);
 
   const handleAddToWishlist = (item) => {
-    addToWishlist(item);
-    setWishlist(true);
+    if (token) {
+      addToWishlist(item);
+      setWishlist(true);
+    } else {
+      alert("Login First");
+      navigate("/");
+    }
   };
 
   const handleRemoveFromWishlist = (itemId) => {

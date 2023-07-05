@@ -6,7 +6,7 @@ export const ProductProvider = ({ children }) => {
   const [data, setData] = useState([]);
 
   const getData = async (id) => {
-    const response = await fetch(`http://localhost:5000/Products/${id}`, {
+    const response = await fetch(`https://urban-interiors-server.vercel.app/Products/${id}`, {
       method: "GET",
     });
     const product = await response.json();

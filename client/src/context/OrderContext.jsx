@@ -9,7 +9,7 @@ const OrderProvider = ({ children }) => {
 
   const addToOrder = async (item) => {
     try {
-      const response = await fetch("http://localhost:5000/orders", {
+      const response = await fetch("https://urban-interiors-server.vercel.app/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const OrderProvider = ({ children }) => {
 
   const fetchOrderItems = async () => {
     try {
-      const response = await fetch("http://localhost:5000/orders", {
+      const response = await fetch("https://urban-interiors-server.vercel.app/orders", {
         method: "GET",
         headers: {
           Authorization: token,

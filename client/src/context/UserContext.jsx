@@ -9,7 +9,7 @@ export const UserProvider = ({ children }) => {
   //   console.log(token);
 
   const getUser = async () => {
-    const response = await fetch("http://localhost:5000/user", {
+    const response = await fetch("https://urban-interiors-server.vercel.app/user", {
       method: "GET",
       headers: {
         Authorization: token,

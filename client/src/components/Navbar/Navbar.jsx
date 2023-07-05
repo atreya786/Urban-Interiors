@@ -1,7 +1,7 @@
 import { Navbar, Button, Text, Avatar } from "@nextui-org/react";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Modal, Input, Row, Checkbox, Textarea } from "@nextui-org/react";
 import image from "./logo.png";
 import SearchContext from "../../context/SearchContext";
@@ -61,7 +61,7 @@ const NewNavbar = () => {
 
   const handleSubmit = async () => {
     // Perform form validation and submit logic here
-    const response = await fetch("http://localhost:5000/api/signup", {
+    await fetch("https://urban-interiors-server.vercel.app/api/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,9 +74,7 @@ const NewNavbar = () => {
         address,
       }),
     });
-    const json = await response.json();
-    // console.log(json);
-    alert("Registered Successfully")
+    alert("Registered Successfully");
     // Reset form fields
     setUsername("");
     setNewEmail("");
@@ -91,8 +89,25 @@ const NewNavbar = () => {
 
   const navigate = useNavigate();
   const handleProfile = () => {
-    // console.log("clicked");
     navigate("/Profile");
+  };
+  const handleCategory = () => {
+    navigate("/Categories");
+  };
+  const handleHome = () => {
+    navigate("/");
+  };
+  const handleAbout = () => {
+    navigate("/About");
+  };
+  const handleContact = () => {
+    navigate("/Contact");
+  };
+  const handleLogo = () => {
+    navigate("/");
+  };
+  const handleCart = () => {
+    navigate("/Cart");
   };
 
   const { search, updateSearch } = useContext(SearchContext);
@@ -103,37 +118,47 @@ const NewNavbar = () => {
     <>
       <Navbar isBordered variant="sticky">
         <Navbar.Brand>
-          <Link to="/">
-            <img
-              src={image}
-              style={{ height: "3rem", width: "15rem" }}
-              alt=""
-            />
-          </Link>
+          <img
+            onClick={handleLogo}
+            src={image}
+            style={{ height: "3rem", width: "15rem" }}
+            alt=""
+          />
         </Navbar.Brand>
         <Navbar.Content hideIn="xs" variant="highlight-rounded">
-          <Navbar.Link isActive={active === "/" ? true : false} href="/">
+          <Navbar.Link
+            isActive={active === "/" ? true : false}
+            onClick={handleHome}
+            style={{ cursor: "pointer" }}
+          >
             Home
           </Navbar.Link>
           <Navbar.Link
             isActive={active === "/Categories" ? true : false}
-            href="Categories"
+            onClick={handleCategory}
+            style={{ cursor: "pointer" }}
           >
             Categories
           </Navbar.Link>
           <Navbar.Link
             isActive={active === "/About" ? true : false}
-            href="About"
+            onClick={handleAbout}
+            style={{ cursor: "pointer" }}
           >
             About Us
           </Navbar.Link>
           <Navbar.Link
             isActive={active === "/Contact" ? true : false}
-            href="Contact"
+            onClick={handleContact}
+            style={{ cursor: "pointer" }}
           >
             Contact Us
           </Navbar.Link>
-          <Navbar.Link isActive={active === "/Cart" ? true : false} href="Cart">
+          <Navbar.Link
+            isActive={active === "/Cart" ? true : false}
+            onClick={handleCart}
+            style={{ cursor: "pointer" }}
+          >
             Cart
           </Navbar.Link>
         </Navbar.Content>
@@ -175,7 +200,7 @@ const NewNavbar = () => {
                       as="button"
                       color="secondary"
                       size="lg"
-                      src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                      src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
                     />
                   </span>
                 </>
@@ -240,7 +265,6 @@ const NewNavbar = () => {
                 Remember me
               </Text>
             </Checkbox>
-            {/* <Link to="/register">Register here</Link> */}
           </Row>
         </Modal.Body>
         <Modal.Footer>

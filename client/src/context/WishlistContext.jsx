@@ -9,7 +9,7 @@ const WishlistProvider = ({ children }) => {
 
   const addToWishlist = async (item) => {
     try {
-      const response = await fetch("http://localhost:5000/wishlists", {
+      const response = await fetch("https://urban-interiors-server.vercel.app/wishlists", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const WishlistProvider = ({ children }) => {
 
   const fetchWishlistItems = async () => {
     try {
-      const response = await fetch("http://localhost:5000/wishlists", {
+      const response = await fetch("https://urban-interiors-server.vercel.app/wishlists", {
         method: "GET",
         headers: {
           Authorization: token,
@@ -45,7 +45,7 @@ const WishlistProvider = ({ children }) => {
 
   const removeFromWishlist = async (itemId) => {
     try {
-      await fetch(`http://localhost:5000/wishlist/${itemId}`, {
+      await fetch(`https://urban-interiors-server.vercel.app/wishlist/${itemId}`, {
         method: "DELETE",
         headers: {
           Authorization: token,
