@@ -306,10 +306,17 @@ function About() {
         </div>
         <hr />
         <center>
+<<<<<<< HEAD
+          <h1>Team : TLE</h1>
+          <img
+            style={{
+              borderRadius: "15px",
+=======
         <h1>Team : TLE</h1>
           <img
             style={{
               borderRadius:"15px",
+>>>>>>> origin/main
               objectFit: "cover",
               height: "50%",
               width: "50%",

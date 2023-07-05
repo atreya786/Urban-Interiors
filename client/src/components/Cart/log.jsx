@@ -8,9 +8,6 @@ import { CartContext } from "../../context/CartContext";
 import { OrderContext } from "../../context/OrderContext";
 
 export default function Log() {
-  const [cardnumber, setCardNumber] = useState("");
-  const [cvv, setCVV] = useState("");
-  const [expiry, setExpiry] = useState("");
   const [mobile, setMobile] = useState("");
   const [otp, setOTP] = useState("");
 
@@ -20,10 +17,7 @@ export default function Log() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "cardnumber") setCardNumber(value);
-    else if (name === "cvv") setCVV(value);
-    else if (name === "expiry") setExpiry(value);
-    else if (name === "mobile") setMobile(value);
+    if (name === "mobile") setMobile(value);
     else if (name === "otp") setOTP(value);
   };
 
@@ -33,14 +27,14 @@ export default function Log() {
 
   useEffect(() => {
     configureCaptcha();
-  }, []);
+  });
 
   const configureCaptcha = () => {
     recaptchaVerifierRef.current = new firebase.auth.RecaptchaVerifier(
       "sign-in-button",
       {
         size: "invisible",
-        callback: (response) => {
+        callback: () => {
           onSignInSubmit();
           console.log("Recapta Verified");
         },
@@ -51,21 +45,17 @@ export default function Log() {
 
   const onSignInSubmit = (e) => {
     e.preventDefault();
-    const cardno = cardnumber;
-    const newcvv = cvv;
-    const newexpiry = expiry;
 
     const phoneNumber = "+91" + mobile;
-    console.log(phoneNumber);
     const appVerifier = recaptchaVerifierRef.current;
     const auth = getAuth();
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       .then((confirmationResult) => {
         confirmationResultRef.current = confirmationResult;
-        console.log("OTP has been sent");
+        alert("OTP has been sent");
       })
-      .catch((error) => {
-        console.log("OTP has not been sent");
+      .catch(() => {
+        alert("OTP has not been sent");
       });
   };
 
@@ -82,10 +72,10 @@ export default function Log() {
         const user = result.user;
         console.log(JSON.stringify(user));
         alert("Ordered Successfully");
-        addToOrder(cartItems)
+        addToOrder(cartItems);
         handleNavigation();
       })
-      .catch((error) => {
+      .catch(() => {
         alert("Enter the Correct OTP");
       });
   };

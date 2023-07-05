@@ -20,10 +20,13 @@ const Cart = () => {
   const { cartItems, removeFromCart, fetchCartItems } = useContext(CartContext);
   const { token } = useContext(AuthContext);
 
+<<<<<<< HEAD
+=======
   useEffect(() => {
     fetchCartItems();
   }, []);
 
+>>>>>>> origin/main
   const [show, setShow] = useState(false);
   const handleShow = () => {
     const c = cardNum;
@@ -34,9 +37,15 @@ const Cart = () => {
     if (
       c.length === 16 &&
       cardName !== "" &&
+<<<<<<< HEAD
+      cardcvv.length === 3 &&
+      cardexpiry.length === 5 &&
+      cardexpiry.charAt(2) === "/"
+=======
       cardcvv.length == 3 &&
       cardexpiry.length == 5 &&
       cardexpiry.charAt(2) == "/"
+>>>>>>> origin/main
     ) {
       setShow(true);
     } else {
@@ -46,6 +55,21 @@ const Cart = () => {
 
   const updateCartItem = async (item) => {
     try {
+<<<<<<< HEAD
+      const response = await fetch(
+        `https://urban-interiors-server.vercel.app/carts/${item._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            cartItem: item,
+          }),
+        }
+      );
+=======
       const response = await fetch(`http://localhost:5000/carts/${item._id}`, {
         method: "PUT",
         headers: {
@@ -56,6 +80,7 @@ const Cart = () => {
           cartItem: item,
         }),
       });
+>>>>>>> origin/main
 
       if (response.ok) {
         // Item updated successfully
@@ -94,8 +119,14 @@ const Cart = () => {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
+    fetchCartItems();
+    calculateSubtotal();
+  });
+=======
     calculateSubtotal();
   }, []);
+>>>>>>> origin/main
 
   const totalPrice = subtotal + parseFloat(shipping);
 
