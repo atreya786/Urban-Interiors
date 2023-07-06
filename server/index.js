@@ -2,17 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 const { Schema } = mongoose;
-<<<<<<< HEAD
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 import { ObjectId } from "mongodb";
-=======
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const cors = require("cors");
-const { ObjectId } = require("mongodb");
->>>>>>> origin/main
 
 const app = express();
 app.use(bodyParser.json());
