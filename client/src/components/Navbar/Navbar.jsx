@@ -1,11 +1,7 @@
 import { Navbar, Button, Text, Avatar } from "@nextui-org/react";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-=======
 import { Link, useNavigate } from "react-router-dom";
->>>>>>> origin/main
 import { Modal, Input, Row, Checkbox, Textarea } from "@nextui-org/react";
 import image from "./logo.png";
 import SearchContext from "../../context/SearchContext";
@@ -34,17 +30,16 @@ const NewNavbar = () => {
   const { login, token } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // console.log(token);
 
   const handleLogin = async () => {
     await login(email, password);
     window.location.reload();
   };
+
   const [visible, setVisible] = React.useState(false);
   const handler = () => setVisible(true);
   const closeHandler = () => {
     setVisible(false);
-    // console.log("closed");
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +59,6 @@ const NewNavbar = () => {
   };
 
   const handleSubmit = async () => {
-    // Perform form validation and submit logic here
     await fetch("https://urban-interiors-server.vercel.app/api/signup", {
       method: "POST",
       headers: {
@@ -78,53 +72,20 @@ const NewNavbar = () => {
         address,
       }),
     });
-<<<<<<< HEAD
     alert("Registered Successfully");
-=======
-    const json = await response.json();
-    // console.log(json);
-    alert("Registered Successfully")
->>>>>>> origin/main
-    // Reset form fields
     setUsername("");
     setNewEmail("");
     setNewPassword("");
     setConfirmPassword("");
     setAddress("");
     setPhone("");
-
-    // Close the modal
     closeModal();
   };
 
   const navigate = useNavigate();
   const handleProfile = () => {
-<<<<<<< HEAD
     navigate("/Profile");
   };
-  const handleCategory = () => {
-    navigate("/Categories");
-  };
-  const handleHome = () => {
-    navigate("/");
-  };
-  const handleAbout = () => {
-    navigate("/About");
-  };
-  const handleContact = () => {
-    navigate("/Contact");
-  };
-  const handleLogo = () => {
-    navigate("/");
-  };
-  const handleCart = () => {
-    navigate("/Cart");
-  };
-=======
-    // console.log("clicked");
-    navigate("/Profile");
-  };
->>>>>>> origin/main
 
   const { search, updateSearch } = useContext(SearchContext);
 
@@ -134,14 +95,6 @@ const NewNavbar = () => {
     <>
       <Navbar isBordered variant="sticky">
         <Navbar.Brand>
-<<<<<<< HEAD
-          <img
-            onClick={handleLogo}
-            src={image}
-            style={{ height: "3rem", width: "15rem" }}
-            alt=""
-          />
-=======
           <Link to="/">
             <img
               src={image}
@@ -149,55 +102,30 @@ const NewNavbar = () => {
               alt=""
             />
           </Link>
->>>>>>> origin/main
         </Navbar.Brand>
         <Navbar.Content hideIn="xs" variant="highlight-rounded">
           <Navbar.Link isActive={active === "/" ? true : false} href="/">
             Home
           </Navbar.Link>
           <Navbar.Link
-<<<<<<< HEAD
-            isActive={active === "/" ? true : false}
-            onClick={handleHome}
-            style={{ cursor: "pointer" }}
-          >
-            Home
-          </Navbar.Link>
-          <Navbar.Link
-            isActive={active === "/Categories" ? true : false}
-            onClick={handleCategory}
-            style={{ cursor: "pointer" }}
-          >
-=======
             isActive={active === "/Categories" ? true : false}
             href="Categories"
           >
->>>>>>> origin/main
             Categories
           </Navbar.Link>
           <Navbar.Link
             isActive={active === "/About" ? true : false}
-            onClick={handleAbout}
-            style={{ cursor: "pointer" }}
+            href="/About"
           >
             About Us
           </Navbar.Link>
           <Navbar.Link
             isActive={active === "/Contact" ? true : false}
-            onClick={handleContact}
-            style={{ cursor: "pointer" }}
+            href="/Contact"
           >
             Contact Us
           </Navbar.Link>
-<<<<<<< HEAD
-          <Navbar.Link
-            isActive={active === "/Cart" ? true : false}
-            onClick={handleCart}
-            style={{ cursor: "pointer" }}
-          >
-=======
           <Navbar.Link isActive={active === "/Cart" ? true : false} href="Cart">
->>>>>>> origin/main
             Cart
           </Navbar.Link>
         </Navbar.Content>
@@ -239,11 +167,7 @@ const NewNavbar = () => {
                       as="button"
                       color="secondary"
                       size="lg"
-<<<<<<< HEAD
-                      src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
-=======
                       src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
->>>>>>> origin/main
                     />
                   </span>
                 </>

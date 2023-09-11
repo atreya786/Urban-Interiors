@@ -44,11 +44,7 @@ function ProductDetails() {
                         </div>
                       </div>
                       <div className="text-center p-image">
-<<<<<<< HEAD
-                        <img src={el.image} alt=""/>{" "}
-=======
-                        <img src={el.image} />{" "}
->>>>>>> origin/main
+                        <img src={el.image} alt="" />{" "}
                       </div>
                       <div className="p-about">
                         <h6>
@@ -92,11 +88,7 @@ function ProductDetails() {
                         </div>
                       </div>
                       <div className="text-center p-image">
-<<<<<<< HEAD
-                        <img src={el.image} alt=""/>{" "}
-=======
-                        <img src={el.image} />{" "}
->>>>>>> origin/main
+                        <img src={el.image} alt="" />{" "}
                       </div>
                       <div className="p-about">
                         <h6>

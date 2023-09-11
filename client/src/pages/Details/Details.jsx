@@ -3,10 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { CartContext } from "../../context/CartContext";
 import { WishlistContext } from "../../context/WishlistContext";
-<<<<<<< HEAD
-import { AuthContext } from "../../context/AuthContext";
-=======
->>>>>>> origin/main
+import { AuthContext } from "../../context/AuthContext"; // Keep this line
 
 function Details() {
   const navigate = useNavigate();
@@ -16,8 +13,8 @@ function Details() {
   const selectedProduct = data.find((product) => product.id === parseInt(id));
 
   const { addToCart, removeFromCart } = useContext(CartContext);
-<<<<<<< HEAD
-  const { token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext); // Keep this line
+
   const handleAdd = (item) => {
     if (token) {
       addToCart(item);
@@ -26,16 +23,13 @@ function Details() {
       alert("Login First");
       navigate("/");
     }
-=======
-  const handleAdd = (item) => {
-    addToCart(item);
-    setAdded(true);
->>>>>>> origin/main
   };
+
   const handleRemove = (id) => {
     removeFromCart(id);
     setAdded(false);
   };
+
   const handleNavigate = () => {
     navigate("/Cart");
   };
@@ -48,7 +42,6 @@ function Details() {
   const { addToWishlist, removeFromWishlist } = useContext(WishlistContext);
 
   const handleAddToWishlist = (item) => {
-<<<<<<< HEAD
     if (token) {
       addToWishlist(item);
       setWishlist(true);
@@ -56,10 +49,6 @@ function Details() {
       alert("Login First");
       navigate("/");
     }
-=======
-    addToWishlist(item);
-    setWishlist(true);
->>>>>>> origin/main
   };
 
   const handleRemoveFromWishlist = (itemId) => {

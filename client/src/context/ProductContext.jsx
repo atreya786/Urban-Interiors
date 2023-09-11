@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+// <<<<<<< HEAD
 import React, { createContext, useState, useEffect } from "react";
 
 export const ProductContext = createContext();
@@ -32,38 +32,3 @@ export const ProductProvider = ({ children }) => {
     </ProductContext.Provider>
   );
 };
-=======
-import React, { createContext, useState, useEffect } from "react";
-
-export const ProductContext = createContext();
-
-export const ProductProvider = ({ children }) => {
-  const [data, setData] = useState([]);
-
-  const getData = async (id) => {
-    const response = await fetch(`http://localhost:5000/Products/${id}`, {
-      method: "GET",
-    });
-    const product = await response.json();
-    localStorage.setItem("products", JSON.stringify(product));
-    const getProduct = JSON.parse(localStorage.getItem("products"));
-    setData(getProduct);
-    // console.log(data);
-  };
-
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("products"));
-    if (storedData) {
-      setData(storedData);
-    } else {
-      getData();
-    }
-  }, []);
-
-  return (
-    <ProductContext.Provider value={{ getData, data }}>
-      {children}
-    </ProductContext.Provider>
-  );
-};
->>>>>>> origin/main
