@@ -310,6 +310,7 @@ function About() {
           <img
             style={{
               borderRadius: "15px",
+
               objectFit: "cover",
               height: "50%",
               width: "50%",

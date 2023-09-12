@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { CartContext } from "../../context/CartContext";
 import { WishlistContext } from "../../context/WishlistContext";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext"; // Keep this line
 
 function Details() {
   const navigate = useNavigate();
@@ -13,7 +13,8 @@ function Details() {
   const selectedProduct = data.find((product) => product.id === parseInt(id));
 
   const { addToCart, removeFromCart } = useContext(CartContext);
-  const { token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext); // Keep this line
+
   const handleAdd = (item) => {
     if (token) {
       addToCart(item);
@@ -23,10 +24,12 @@ function Details() {
       navigate("/");
     }
   };
+
   const handleRemove = (id) => {
     removeFromCart(id);
     setAdded(false);
   };
+
   const handleNavigate = () => {
     navigate("/Cart");
   };

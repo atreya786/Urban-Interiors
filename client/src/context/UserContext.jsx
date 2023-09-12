@@ -1,3 +1,4 @@
+// <<<<<<< HEAD
 import { createContext, useContext, useState } from "react";
 import { AuthContext } from "./AuthContext";
 

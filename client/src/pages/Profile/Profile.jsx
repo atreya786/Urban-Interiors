@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./Profile.css";
 import UserContext from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthContext";
+import image from "../../components/Assets/Atreya.jpg";
 import { WishlistContext } from "../../context/WishlistContext";
 import { OrderContext } from "../../context/OrderContext";
 
@@ -29,13 +30,13 @@ const Profile = () => {
               <div className="card-body">
                 <div className="d-flex flex-column align-items-center">
                   <img
-                    src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
+                    src={image}
                     alt="Admin"
-                    className=""
-                    width={270}
-                    height={270}
+                    className="rounded-circle p-1 bg-secondary"
+                    width={230}
+                    height={250}
                   />
-                  <div className="p-1">
+                  <div className="mt-3   p-1">
                     <h4>
                       {" "}
                       <b>{user.username}</b>
@@ -56,7 +57,6 @@ const Profile = () => {
                     >
                       Logout
                     </button>
-                    {/* <button className="btn btn-outline-danger mx-1">Message</button> */}
                   </div>
                 </div>
               </div>
