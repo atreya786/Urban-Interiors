@@ -225,7 +225,6 @@ const NewNavbar = () => {
             onChange={(e) => setPassword(e.target.value)}
             name="password"
             id="password"
-            type="password"
           />
           <Row justify="space-between">
             <Checkbox>
@@ -298,7 +297,6 @@ const NewNavbar = () => {
             onChange={(e) => setNewPassword(e.target.value)}
             name="password"
             id="newpassword"
-            type="password"
             required
           />
           <Input
@@ -311,7 +309,6 @@ const NewNavbar = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             name="password"
-            type="password"
             id="confpassword"
             required
           />

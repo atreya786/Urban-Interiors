@@ -16,7 +16,7 @@ const Profile = () => {
     getUser();
     fetchWishlistItems();
     fetchOrderItems();
-  });
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -171,7 +171,7 @@ const Profile = () => {
                               <h6>{el.wishlistItem.wishlistItem.name}</h6>
                             </td>
                             <td className="text-center">
-                              <h6>{""}</h6>
+                              <h6></h6>
                             </td>
                             <td className="text-center">
                               <h6>₹{el.wishlistItem.wishlistItem.price}</h6>
