@@ -220,6 +220,7 @@ const NewNavbar = () => {
             fullWidth
             color="primary"
             size="lg"
+            type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -292,6 +293,7 @@ const NewNavbar = () => {
             fullWidth
             color="primary"
             size="lg"
+            type="password"
             placeholder="Password"
             value={newpassword}
             onChange={(e) => setNewPassword(e.target.value)}
@@ -305,6 +307,7 @@ const NewNavbar = () => {
             fullWidth
             color="primary"
             size="lg"
+            type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}

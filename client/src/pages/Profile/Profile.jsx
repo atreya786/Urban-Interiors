@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./Profile.css";
 import UserContext from "../../context/UserContext";
 import { AuthContext } from "../../context/AuthContext";
-import image from "../../components/Assets/Atreya.jpg";
+// import image from "../../components/Assets/Atreya.jpg";
 import { WishlistContext } from "../../context/WishlistContext";
 import { OrderContext } from "../../context/OrderContext";
 
@@ -30,7 +30,7 @@ const Profile = () => {
               <div className="card-body">
                 <div className="d-flex flex-column align-items-center">
                   <img
-                    src={image}
+                    src=""
                     alt="Admin"
                     className="rounded-circle p-1 bg-secondary"
                     width={230}
